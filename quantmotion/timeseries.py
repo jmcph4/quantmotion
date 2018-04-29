@@ -88,8 +88,8 @@ class TimeSeries(object):
             raise TypeError()
 
     def __sub__(self, o):
-        if isinstance(o, self):
-            return self._remove_keys(o.keys())
+        if isinstance(o, type(self)):
+            return self._remove_keys(o._data.keys())
         else:
             raise TypeError()
 
@@ -106,6 +106,10 @@ class TimeSeries(object):
             l.append((k, v))
 
         return l
+
+    def _remove_keys(self, keys):
+        for k in keys:
+            self._data.pop(k)
 
     def __repr__(self):
         s = ""
