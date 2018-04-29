@@ -29,6 +29,9 @@ class TimeSeries(object):
             elif key.stop is not None:
                 start = 0
                 stop = keys_list.index(key.stop)
+            else:
+                start = 0
+                stop = len(keys_list)
 
             sliced_keys = [keys_list[i] for i in range(start, stop)]
 
@@ -47,6 +50,15 @@ class TimeSeries(object):
 
     def __delitem__(self, key):
         self._data.pop(key)
+
+    def __eq__(self, o):
+        if isinstance(o, type(self)):
+            if self._data == o._data:
+                return True
+            else:
+                return False
+        else:
+            return False
 
     def __iter__(self):
         return ((k, v) for k, v in self._data.items())
