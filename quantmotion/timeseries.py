@@ -17,6 +17,9 @@ class TimeSeries(object):
         if isinstance(key, slice): # handle slicing
             keys_list = list(self._data.keys())
 
+            start = 0
+            stop = 0
+
             if key.start is not None and key.stop is not None:
                 start = keys_list.index(key.start)
                 stop = keys_list.index(key.stop)
