@@ -108,8 +108,12 @@ class TimeSeries(object):
         return l
 
     def _remove_keys(self, keys):
+        ts = deepcopy(self)
+    
         for k in keys:
-            self._data.pop(k)
+            ts._data.pop(k)
+
+        return ts
 
     def __repr__(self):
         s = ""
