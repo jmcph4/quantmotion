@@ -94,3 +94,6 @@ ENV/
 *.tmp
 msg.tmp
 
+.idea
+.idea/*
+
