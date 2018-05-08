@@ -19,7 +19,7 @@ class Asset(object):
     def __eq__(self, o):
         if isinstance(o, type(self)):
             if self._name == o._name and self._prices == o._prices:
-                return False
+                return True
             else:
                 return False
         else:
