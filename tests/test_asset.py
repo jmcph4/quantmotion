@@ -5,6 +5,7 @@ from quantmotion.ohlcvdata import OHLCVData
 from quantmotion.timeseries import TimeSeries
 from quantmotion.asset import Asset
 
+
 class TestAsset(unittest.TestCase):
     __valid_asset_name = "Tulips"
     __valid_ts_data = [(datetime(2018, 1, 1),
@@ -51,3 +52,5 @@ class TestAsset(unittest.TestCase):
 
         self.assertEqual(actual_price, expected_price)
 
+if __name__ == "__main__":
+    unittest.main()
