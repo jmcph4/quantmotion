@@ -16,6 +16,15 @@ class Asset(object):
     def prices(self):
         return self._prices
 
+    def __eq__(self, o):
+        if isinstance(o, type(self)):
+            if self._name == o._name and self._prices == o._prices:
+                return False
+            else:
+                return False
+        else:
+            return False
+
     def __repr__(self):
         return self._name
 
