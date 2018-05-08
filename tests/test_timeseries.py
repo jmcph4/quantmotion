@@ -1,14 +1,12 @@
 import unittest
-from collections import OrderedDict
 from datetime import datetime
 from copy import deepcopy
 
 from quantmotion.ohlcvdata import OHLCVData
 from quantmotion.timeseries import TimeSeries
 
+
 class TestTimeSeries(unittest.TestCase):
-    """
-    """
     __valid_initial_data = [
         [(datetime(2018, 1, 1), OHLCVData(1.00, 2.43, 0.52, 1.50, 100)),
          (datetime(2018, 1, 2), OHLCVData(2.00, 2.05, 1.95, 2.00, 5400))],
@@ -19,9 +17,6 @@ class TestTimeSeries(unittest.TestCase):
     __not_found_value = OHLCVData(-100, -200, -50, -120, -100)
     
     def test___init___normal(self):
-        """
-        Test the default constructor 
-        """
         actual_ts = TimeSeries()
 
         expected_ts = TimeSeries()
@@ -153,6 +148,7 @@ class TestTimeSeries(unittest.TestCase):
         expected_ts = TimeSeries()
 
         self.assertEqual(c, expected_ts)
+
 
 if __name__ == "__main__":
     unittest.main()
