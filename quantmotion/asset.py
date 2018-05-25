@@ -25,6 +25,9 @@ class Asset(object):
         else:
             return False
 
+    def __hash__(self):
+        return id(self)
+
     def __repr__(self):
         return self._name
 
