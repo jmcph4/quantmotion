@@ -93,6 +93,9 @@ class TimeSeries(object):
         else:
             raise TypeError()
 
+    def keys(self):
+        return sorted(self._data.keys())
+
     def _concatenate(self, ts):
         a = self._ordereddict_to_list(self._data)
         b = self._ordereddict_to_list(ts._data)
