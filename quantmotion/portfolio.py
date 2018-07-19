@@ -1,3 +1,5 @@
+from copy import deepcopy
+
 from .ohlcvdata import OHLCVData
 from .timeseries import TimeSeries
 from .asset import Asset
@@ -6,7 +8,7 @@ class Portfolio(object):
     """
     Represents a collection of assets and a sequence of buying or selling events
     """
-    def __init__(self, init=None, balance=None):
+    def __init__(self, init=None, balance=None, brokerage=None):
         if init is not None:
             self._holdings = deepcopy(init)
             self._initial = deepcopy(init)
@@ -22,6 +24,11 @@ class Portfolio(object):
         else:
             self._balance = 0
             self._initial_balance = None
+
+        if brokerage is not None:
+            self._brokerage = deepcopy(brokerage)
+        else:
+            self._brokerage = None
 
     @property
     def holdings(self):
@@ -77,22 +84,38 @@ class Portfolio(object):
         for key, event in self._events:
             asset = event[0]
             quantity = event[1]
+            price = 0
+            discount = 0
+
+            # determine price
+            if isinstance(asset.price_at(key), OHLCVData):
+                price = asset.price_at(key).close
+            else:
+                price = asset.price_at(key)
 
             if quantity > 0: # buying
-                if isinstance(asset.price_at(key), OHLCVData):
-                    bal -= quantity * asset.price_at(key).close
-                else:
-                    bal -= quantity * asset.price_at(key)
+                # apply brokerage
+                if self._brokerage is not None:
+                    if self._brokerage[0][1]:
+                        discount = self._brokerage[0][0] * price
+                    else:
+                        discount = self._brokerage[0][0]
+
+                bal -= quantity * price - discount
 
                 if asset not in tally.keys():
                     tally[asset] = quantity
                 else:
                     tally[asset] += quantity
             else: # selling
-                if isinstance(asset.price_at(key), OHLCVData):
-                    bal += -1 * quantity * asset.price_at(key).close
-                else:
-                    bal += -1 * quantity * asset.price_at(key)
+                # apply brokerage
+                if self._brokerage is not None:
+                    if self._brokerage[1][1]:
+                        discount = self._brokerage[1][0] * price
+                    else:
+                        discount = self._brokerage[1][0]
+                
+                bal += quantity * price - discount
 
                 tally[asset] -= -1 * quantity
 
